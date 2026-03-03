@@ -17,11 +17,12 @@ public abstract class ModSettings {
     public ModSettings(File configFile, Gson gson) {
         this.configFile = configFile;
         this.gson = gson;
-        this.initSettings();
-        this.loadSettings();
     }
 
-    public abstract void initSettings();
+    public <T extends Setting<?>> T registerSetting(T setting) {
+        this.settings.add(setting);
+        return setting;
+    }
 
     public void loadSettings() {
         if (settings.isEmpty()) {

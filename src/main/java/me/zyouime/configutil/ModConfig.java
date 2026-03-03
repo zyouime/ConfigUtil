@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import me.zyouime.configutil.adapter.ColorAdapter;
+import net.fabricmc.loader.api.FabricLoader;
 
 import java.awt.*;
 import java.io.File;
@@ -13,6 +14,10 @@ import java.io.FileWriter;
 public class ModConfig {
 
     public static final Gson DEFAULT_GSON = new GsonBuilder().setPrettyPrinting().registerTypeAdapter(Color.class, new ColorAdapter()).create();
+
+    public static File getConfigFile(String name) {
+        return new File(FabricLoader.getInstance().getConfigDir().toFile(), name + ".json");
+    }
 
     public static JsonObject loadConfig(File configFile, Gson gson) {
         try (FileReader fileReader = new FileReader(configFile)) {
