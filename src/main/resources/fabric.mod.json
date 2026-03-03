@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "configutil",
+  "version": "${version}",
+  "name": "ConfigUtil",
+  "description": "Лёгкая библиотека конфигов для моих модов.",
+  "authors": ["zyouime13"],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/configutil/icon.png",
+  "environment": "client",
+  "entrypoints": {},
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
