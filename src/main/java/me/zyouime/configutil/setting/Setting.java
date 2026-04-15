@@ -34,4 +34,8 @@ public class Setting<T> {
         object.add(configKey, gson.toJsonTree(this.value, this.type));
         ModConfig.saveConfig(object, configFile, gson);
     }
+
+    public void reset() {
+        this.setValue(defaultValue);
+    }
 }
