@@ -20,32 +20,34 @@ public class Setting<T> {
     private final Type type;
     @Setter private Consumer<T> setCallback;
 
-    public Setting(String configKey, Type type, T defaultValue, Consumer<T> setCallback) {
+    private Setting(String configKey, Type type, T defaultValue, Consumer<T> setCallback) {
         this.configKey = configKey;
         this.defaultValue = defaultValue;
         this.type = type;
         this.setCallback = setCallback;
     }
 
-    public Setting(String configKey, Type type, T defaultValue) {
-        this(configKey, type, defaultValue, null);
+    public static <W> Setting<W> of(String configKey, Type type, W defaultValue, Consumer<W> setCallback) {
+        return new Setting<>(configKey, type, defaultValue, setCallback);
+    }
+
+    public static <W> Setting<W> of(String configKey, Type type, W defaultValue) {
+        return new Setting<>(configKey, type, defaultValue, null);
     }
 
     public void initValue(JsonElement value, Gson gson) {
         this.value = gson.fromJson(value, this.type);
     }
 
-    public void save(Gson gson, File configFile) {
-        JsonObject object = ModConfig.loadConfig(configFile, gson);
-        object.add(configKey, gson.toJsonTree(this.value, this.type));
-        ModConfig.saveConfig(object, configFile, gson);
+    public void save(Gson gson, JsonObject config) {
+        config.add(configKey, gson.toJsonTree(this.value, this.type));
     }
 
     public void setValue(T value) {
+        this.value = value;
         if (setCallback != null) {
             setCallback.accept(value);
         }
-        this.value = value;
     }
 
     public void reset() {
